@@ -29,7 +29,7 @@ LVSIZE=$(lvdisplay /dev/vglabs/lvlabs | awk '/Current LE/ { print $3 }')
 VGSIZE=$(vgdisplay vglabs | awk '/Total PE/ { print $3 }')
 HALF=$(( VGSIZE / 2 ))
 
-if [ $LVSIZE -eq $HALF ]
+if [[ $LVSIZE -eq $HALF ]]
 then
 	echo -e "\033[32m[OK]\033[0m\t\t logical volume \033[1mlvlabs\033[0m uses 50% of available extents"
 	SCORE=$(( SCORE + 10 ))
