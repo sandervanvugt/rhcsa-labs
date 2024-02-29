@@ -1,28 +1,42 @@
+###dealing with situation where nvme0n2 does exist and the partition does not
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep .db &>/dev/null
 then
-	PART=sdb1
-	if [[ -z $PART ]]
-	then
-		TOTAL=$(( TOTAL + 40 ))
-		return
-	fi
-	if mount | grep sdb1 | grep -i xfs &>/dev/null
-	then
-		echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
-		SCORE=$(( SCORE + 10 ))
-	else
-		echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is NOT mounted with the xfs filesystem on \033[1m/data\033[0m"
-	fi
-	TOTAL=$(( TOTAL + 10 ))
+        PART=db1
+        ###getting out if we have no partition
+        if [[ -z $PART ]]
+        then
+                TOTAL=$(( TOTAL + 40 ))
+                return
+        else
+                SDB1UUID=$(blkid | awk '/db1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+                echo SDB1UUID is set to $SDB1UUID
+        fi
+
+        if mount | grep $PART | grep -i xfs &>/dev/null
+        then
+                echo -e "\033[32m[OK]\033[0m\t\t \033[1m$PART\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
+                SCORE=$(( SCORE + 10 ))
+        else
+                echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m$PART\033[0m is NOT mounted with the xfs filesystem on \033[1m/data\033[0m"
+        fi
+        TOTAL=$(( TOTAL + 10 ))
 fi
 
-# finding sdb1 UUID 
-if [[ $PART == 'sdb1' ]]
+#### we need to get out if there is no partition
+if [ -z ${SDB1UUID} ]
 then
-	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
-	echo SDB1UUID is set to $SDB1UUID
+        echo required partition not set
+else
+        if grep ${SDB1UUID} /etc/fstab &>/dev/null
+        then
+                echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/?db1\033[0m is mounted persistently by its UUID"
+                SCORE=$(( SCORE + 10 ))
+        else
+                echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/?db1\033[0m is not mounted persistently by its UUID"
+        fi
 fi
-###following code needs to be applied to /dev/sdb also
+TOTAL=$(( TOTAL + 10 ))
+
 ###dealing with situation where nvme0n2 does exist and the partition does not
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
 then
@@ -47,15 +61,6 @@ then
         TOTAL=$(( TOTAL + 10 ))
 fi
 
-
-# finding sdb1 UUID
-#if [[ $PART == 'nvme0n2p1' ]]
-#then
-#        SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
-#	echo SDB1UUID is set to $SDB1UUID
-#fi
-
-
 #### we need to get out if there is no partition
 if [ -z ${SDB1UUID} ]
 then
@@ -63,10 +68,10 @@ then
 else
 	if grep ${SDB1UUID} /etc/fstab &>/dev/null
 	then
-		echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted persistently by its UUID"
+		echo -e "\033[32m[OK]\033[0m\t\t \033[1m$PART\033[0m is mounted persistently by its UUID"
 		SCORE=$(( SCORE + 10 ))
 	else
-		echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is not mounted persistently by its UUID"
+		echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m$PART\033[0m is not mounted persistently by its UUID"
 	fi
 fi
 TOTAL=$(( TOTAL + 10 ))
