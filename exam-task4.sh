@@ -13,12 +13,13 @@ then
 	echo -e "\033[32m[OK]\033[0m\t\t found correct niceness of 19"
 	SCORE=$(( SCORE + 10 ))
 else
-	if [[ $(ps -eo ni,cmd,pid | awk '/sleep/ && /infinity/ && !/awk/ { print $1 }' | wc -l) -gt 1 ]] &>/dev/null
-	then
-		echo -e "\033[31m[FAIL]\033[0m\t\t multiple sleep infinity processes found"
-	else
+	# below i'm failing students that have more than one sleep infinity process. not sure why so I disabled
+	#if [[ $(ps -eo ni,cmd,pid | awk '/sleep/ && /infinity/ && !/awk/ { print $1 }' | wc -l) -gt 1 ]] &>/dev/null
+	#then
+	#	echo -e "\033[31m[FAIL]\033[0m\t\t multiple sleep infinity processes found"
+	#else
 		echo -e "\033[31m[FAIL]\033[0m\t\t niceness of 19 was not found"
-	fi
+	#fi
 fi
 TOTAL=$(( TOTAL + 10 ))
 
