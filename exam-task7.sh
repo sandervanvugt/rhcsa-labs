@@ -18,6 +18,7 @@ then
 	echo SDB1UUID is set to $SDB1UUID
 fi
 
+set -x
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
 then
         PART=nvme0n2p1
@@ -31,12 +32,14 @@ then
         TOTAL=$(( TOTAL + 10 ))
 fi
 
+
 # finding sdb1 UUID
 if [[ $PART == 'nvme0n2p1' ]]
 then
         SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
 fi
+set +x
 
 if [ -z $PART ]
 then
