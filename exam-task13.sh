@@ -29,9 +29,9 @@ then
                 echo -e "Did you use the \033[1m:Z\033[0m option while creating the bind mount?"
 
         fi
-        if podman ps | grep mydb | grep 3206 &>/dev/null
+        if [ -f /home/student/mariadb/mysql.sock ] &>/dev/null
         then
-        echo -e "\033[32m[OK]\033[0m\t\t container exposed on host port 3206"
+        echo -e "\033[32m[OK]\033[0m\t\t database has been created"
         echo 10 >> /tmp/score.txt
         else
                 echo -e "\033[31m[FAIL]\033[0m\t\t the database has not been created"
@@ -44,7 +44,7 @@ then
         echo 10 >> /tmp/score.txt
         else
                 echo -e "\033[31m[FAIL]\033[0m\t\t the container isn't listening on host port 3206"
-                echo -e "Did you use the \033[1m-p 3206:3206\033[0m option while running the container"
+                echo -e "Did you use the \033[1m-p 3206:3306\033[0m option while running the container"
 
         fi
 
