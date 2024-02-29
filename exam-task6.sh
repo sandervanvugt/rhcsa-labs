@@ -38,11 +38,3 @@ else
 fi
 TOTAL=$(( TOTAL + 10 ))
 
-if true
-then
-	echo -e "\033[32m[OK]\033[0m\t\t "
-	SCORE=$(( SCORE + 10 ))
-else
-	echo -e "\033[31m[FAIL]\033[0m\t\t "
-fi
-TOTAL=$(( TOTAL + 10 ))
