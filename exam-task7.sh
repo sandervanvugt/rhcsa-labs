@@ -15,6 +15,7 @@ fi
 if [ $PART = sdb1 ]
 then
 	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+	echo SDB1UUID is set to $SDB1UUID
 fi
 
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
@@ -34,6 +35,7 @@ fi
 if [ $PART = nvme0n2p1 ]
 then
         SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+	echo SDB1UUID is set to $SDB1UUID
 fi
 
 if grep ${SDB1UUID} /etc/fstab &>/dev/null
