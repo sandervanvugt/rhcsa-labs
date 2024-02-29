@@ -31,10 +31,10 @@ then
         fi
         if [ -f /home/student/mariadb/mysql.sock ] &>/dev/null
         then
-        echo -e "\033[32m[OK]\033[0m\t\t database has been created"
+        echo -e "\033[32m[OK]\033[0m\t\t found the database files"
         echo 10 >> /tmp/score.txt
         else
-                echo -e "\033[31m[FAIL]\033[0m\t\t the database has not been created"
+                echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find the database files"
                 echo -e "Did you use the \033[1m:Z\033[0m option while creating the bind mount?"
 
         fi
