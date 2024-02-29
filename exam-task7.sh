@@ -1,14 +1,40 @@
-if mount | grep sdb1 | grep -i xfs &>/dev/null
+if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep .db &>/dev/null
 then
-	echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
-	SCORE=$(( SCORE + 10 ))
-else
-	echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is NOT mounted with the xfs filesystem on \033[1m/data\033[0m"
+	PART=sdb1
+	if mount | grep sdb1 | grep -i xfs &>/dev/null
+	then
+		echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
+		SCORE=$(( SCORE + 10 ))
+	else
+		echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is NOT mounted with the xfs filesystem on \033[1m/data\033[0m"
+	fi
+	TOTAL=$(( TOTAL + 10 ))
 fi
-TOTAL=$(( TOTAL + 10 ))
 
 # finding sdb1 UUID 
-SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+if [ $PART = sdb1 ]
+then
+	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+fi
+
+if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
+then
+        PART=nvme0n2p1
+        if mount | grep $PART | grep -i xfs &>/dev/null
+        then
+                echo -e "\033[32m[OK]\033[0m\t\t \033[1m$PART\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
+                SCORE=$(( SCORE + 10 ))
+        else
+                echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m$PART\033[0m is NOT mounted with the xfs filesystem on \033[1m/data\033[0m"
+        fi
+        TOTAL=$(( TOTAL + 10 ))
+fi
+
+# finding sdb1 UUID
+if [ $PART = nvme0n2p1 ]
+then
+        SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+fi
 
 if grep ${SDB1UUID} /etc/fstab &>/dev/null
 then
