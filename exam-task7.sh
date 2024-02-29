@@ -57,12 +57,17 @@ fi
 
 
 #### we need to get out if there is no partition
-if grep ${SDB1UUID} /etc/fstab &>/dev/null
+if [ -z ${SDB1UUID} ]
 then
-	echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted persistently by its UUID"
-	SCORE=$(( SCORE + 10 ))
+	echo required partition not set
 else
-	echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is not mounted persistently by its UUID"
+	if grep ${SDB1UUID} /etc/fstab &>/dev/null
+	then
+		echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted persistently by its UUID"
+		SCORE=$(( SCORE + 10 ))
+	else
+		echo -e "\033[31m[FAIL]\033[0m\t\t \033[1m/dev/sdb1\033[0m is not mounted persistently by its UUID"
+	fi
 fi
 TOTAL=$(( TOTAL + 10 ))
 
