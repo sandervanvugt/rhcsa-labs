@@ -22,15 +22,19 @@ then
 	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
 fi
-
-set -x
+###following code needs to be applied to /dev/sdb also
+###dealing with situation where nvme0n2 does exist and the partition does not
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
 then
         PART=nvme0n2p1
+	###getting out if we have no partition
 	if [[ -z $PART ]]
         then
                 TOTAL=$(( TOTAL + 40 ))
                 return
+	else
+   		SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+		echo SDB1UUID is set to $SDB1UUID
         fi
 
         if mount | grep $PART | grep -i xfs &>/dev/null
@@ -45,17 +49,12 @@ fi
 
 
 # finding sdb1 UUID
-if [[ $PART == 'nvme0n2p1' ]]
-then
-        SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
-	echo SDB1UUID is set to $SDB1UUID
-fi
-set +x
+#if [[ $PART == 'nvme0n2p1' ]]
+#then
+#        SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
+#	echo SDB1UUID is set to $SDB1UUID
+#fi
 
-if [ -z $PART ]
-then
-	return
-fi
 
 #### we need to get out if there is no partition
 if grep ${SDB1UUID} /etc/fstab &>/dev/null
