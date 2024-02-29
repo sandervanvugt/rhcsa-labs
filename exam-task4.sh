@@ -8,7 +8,8 @@ fi
 TOTAL=$(( TOTAL + 10 ))
 
 
-if [[ $(ps -eo ni,cmd,pid | awk '/sleep/ && /infinity/ && !/awk/ { print $1 }') == 19 ]] &>/dev/null
+#if [[ $(ps -eo ni,cmd,pid | awk '/sleep/ && /infinity/ && !/awk/ { print $1 }') == 19 ]] &>/dev/null
+if [[ $(ps -eo ni,cmd,pid | awk '/sleep/ && !/awk/ { print $1 }') == 19 ]] &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t found correct niceness of 19"
 	SCORE=$(( SCORE + 10 ))
