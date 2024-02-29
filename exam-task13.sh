@@ -6,13 +6,12 @@ sudo -u student -i <<HERE
 
 ####checking user student access to a repository
 
-if podman login --get-login &>/dev/null
+if podman login --get-login registry.redhat.io &>/dev/null
 then
-        echo -e "\033[32m[OK]\033[0m\t\t you are logged in to at least one registry"
+        echo -e "\033[32m[OK]\033[0m\t\t you are logged in to the registry.redhat.io registry"
         echo 10 > /tmp/score.txt
 else
-        echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find any podman login credentials"
-        echo -e "Did you use \033[1mpodman login registryname\033[0m to login to the registry?"
+        echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find podman login credentials for registry.redhat.io"
 fi
 echo 10 > /tmp/total.txt
 
@@ -26,26 +25,22 @@ then
                 echo 10 >> /tmp/score.txt
         else
                 echo -e "\033[31m[FAIL]\033[0m\t\t the database has not been created"
-                echo -e "Did you use the \033[1m:Z\033[0m option while creating the bind mount?"
-
         fi
-        if [ -f /home/student/mariadb/mysql.sock ] &>/dev/null
+
+        if [ -e /home/student/mariadb/mysql.sock ] &>/dev/null
         then
         echo -e "\033[32m[OK]\033[0m\t\t found the database files"
         echo 10 >> /tmp/score.txt
         else
                 echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find the database files"
-                echo -e "Did you use the \033[1m:Z\033[0m option while creating the bind mount?"
-
         fi
+
         if podman ps | grep mydb | grep 3206 &>/dev/null
         then
         echo -e "\033[32m[OK]\033[0m\t\t container exposed on host port 3206"
         echo 10 >> /tmp/score.txt
         else
                 echo -e "\033[31m[FAIL]\033[0m\t\t the container isn't listening on host port 3206"
-                echo -e "Did you use the \033[1m-p 3206:3306\033[0m option while running the container"
-
         fi
 
 else
