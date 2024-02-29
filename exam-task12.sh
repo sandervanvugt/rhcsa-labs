@@ -1,5 +1,5 @@
 
-if podman login --get-login &>/dev/null
+if podman login --get-login registry.access.redhat.com &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t you seem to be logged in to pull images"
 	SCORE=$(( SCORE + 10 ))
@@ -18,11 +18,11 @@ fi
 TOTAL=$(( TOTAL + 10 ))
 
 
-if podman ps | grep sleeper &>/dev/null
+if podman ps -a | grep sleeper &>/dev/null
 then
-	echo -e "\033[32m[OK]\033[0m\t\t found a running container sleeper"
+	echo -e "\033[32m[OK]\033[0m\t\t found a container sleeper"
 	SCORE=$(( SCORE + 10 ))
 else
-	echo -e "\033[31m[FAIL]\033[0m\t\t didn't find a running container sleeper"
+	echo -e "\033[31m[FAIL]\033[0m\t\t didn't find a container sleeper"
 fi
 TOTAL=$(( TOTAL + 10 ))
