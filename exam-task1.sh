@@ -16,7 +16,7 @@ else
 fi
 TOTAL=$(( TOTAL + 10 ))
 
-if grep -l http /etc/yum.repos.d/* &>/dev/null
+if grep -l http /etc/yum.repos.d/* | grep -v redhat.repo &>/dev/null
 then
         echo -e "\033[31m[FAIL]\033[0m\t\t your system is using external registries. this is not allowed. removing 50 points from your score"
 	SCORE=$(( SCORE - 50 ))
