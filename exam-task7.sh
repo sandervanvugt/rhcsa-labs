@@ -12,7 +12,7 @@ then
 fi
 
 # finding sdb1 UUID 
-if [ $PART = sdb1 ]
+if [ $PART = 'sdb1' ]
 then
 	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
@@ -32,12 +32,18 @@ then
 fi
 
 # finding sdb1 UUID
-if [ $PART = nvme0n2p1 ]
+if [ $PART = 'nvme0n2p1' ]
 then
         SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
 fi
 
+if [ -z $PART ]
+then
+	return
+fi
+
+#### we need to get out if there is no partition
 if grep ${SDB1UUID} /etc/fstab &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted persistently by its UUID"
