@@ -35,7 +35,7 @@ then
 		echo -e "\033[32m[OK]\033[0m\t\t the second partition has a size of 5G and is marked as LVM partition"
 		SCORE=$(( SCORE + 10 ))
 	else
-		if [[ $(fdisk -l /dev/?db | awk '/?db2/ && !/lvm/') ]]
+		if [[ $(fdisk -l /dev/?db | awk '/?db2/ && !/LVM/') ]]
 		then
 			echo -e "\033[31m[FAIL]\033[0m\t\t type of the second partition is incorrect"
 		fi
@@ -84,7 +84,7 @@ then
                 echo -e "\033[32m[OK]\033[0m\t\t the second partition has a size of 5G and is marked as LVM partition"
                 SCORE=$(( SCORE + 10 ))
         else
-                if [[ $(fdisk -l /dev/nvme0n2 | awk '/nvme0n2p2/ && !/lvm/') ]]
+                if [[ $(fdisk -l /dev/nvme0n2 | awk '/nvme0n2p2/ && !/LVM/') ]]
                 then
                         echo -e "\033[31m[FAIL]\033[0m\t\t type of the second partition is incorrect"
                 fi
