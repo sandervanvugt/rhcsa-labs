@@ -12,7 +12,7 @@ then
 fi
 
 # finding sdb1 UUID 
-if [ $PART = 'sdb1' ]
+if [[ $PART == 'sdb1' ]]
 then
 	SDB1UUID=$(blkid | awk '/sdb1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
@@ -32,7 +32,7 @@ then
 fi
 
 # finding sdb1 UUID
-if [ $PART = 'nvme0n2p1' ]
+if [[ $PART == 'nvme0n2p1' ]]
 then
         SDB1UUID=$(blkid | awk '/nvme0n2p1/ { print $2 }' | sed 's/UUID="//' | sed 's/"//')
 	echo SDB1UUID is set to $SDB1UUID
