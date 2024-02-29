@@ -1,6 +1,11 @@
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep .db &>/dev/null
 then
 	PART=sdb1
+	if [[ -z $PART ]]
+	then
+		TOTAL=$(( TOTAL + 40 ))
+		return
+	fi
 	if mount | grep sdb1 | grep -i xfs &>/dev/null
 	then
 		echo -e "\033[32m[OK]\033[0m\t\t \033[1m/dev/sdb1\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
@@ -22,6 +27,12 @@ set -x
 if lsblk | grep disk  | sed -n '2p' | awk '{ print $1 }' | grep nvme0n2 &>/dev/null
 then
         PART=nvme0n2p1
+	if [[ -z $PART ]]
+        then
+                TOTAL=$(( TOTAL + 40 ))
+                return
+        fi
+
         if mount | grep $PART | grep -i xfs &>/dev/null
         then
                 echo -e "\033[32m[OK]\033[0m\t\t \033[1m$PART\033[0m is mounted with the xfs filesystem on \033[1m/data\033[0m"
