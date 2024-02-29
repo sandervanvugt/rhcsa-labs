@@ -6,14 +6,15 @@ sudo -u student -i <<HERE
 
 ####checking user student access to a repository
 
-if podman login --get-login registry.redhat.io &>/dev/null
-then
-        echo -e "\033[32m[OK]\033[0m\t\t you are logged in to the registry.redhat.io registry"
-        echo 10 > /tmp/score.txt
-else
-        echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find podman login credentials for registry.redhat.io"
-fi
-echo 10 > /tmp/total.txt
+### due to a temporary issue with podman login persistency, disabling the test below
+#if podman login --get-login registry.redhat.io &>/dev/null
+#then
+#        echo -e "\033[32m[OK]\033[0m\t\t you are logged in to the registry.redhat.io registry"
+#        echo 10 > /tmp/score.txt
+#else
+#        echo -e "\033[31m[FAIL]\033[0m\t\t i cannot find podman login credentials for registry.redhat.io"
+#fi
+#echo 10 > /tmp/total.txt
 
 ####check that mydb is running
 if podman ps -a | grep mydb &>/dev/null
