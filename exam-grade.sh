@@ -103,6 +103,7 @@ echo the score is $SCORE
 TOTALSCORE=$(( TOTAL + SCORE ))
 TOTALTOTAL=$TOTAL
 
+
 #### print PASS/FAIL
 echo -e "\n"
 echo your score is $SCORE out of a total of $TOTAL
