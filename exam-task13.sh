@@ -16,7 +16,7 @@ fi
 echo 10 > /tmp/total.txt
 
 ####check that mydb is running
-if podman ps | grep mydb &>/dev/null
+if podman ps -a | grep mydb &>/dev/null
 then
         echo -e "\033[32m[OK]\033[0m\t\t good! I can find the container mydb. Let's check all required conditions"
         if ls /home/student/mariadb/mysql.sock &>/dev/null
