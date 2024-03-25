@@ -8,7 +8,7 @@ ls /root &>/dev/null || (echo run this script with root privileges && exit 2)
 
 #### TASK 1
 echo -e "\033[1mchecking lab 4.4 results\033[0m"
-find / -size +100M -type f > /tmp/lab44.txt 2>/dev/null
+find / -size +100M -type f -exec ls -l {} \; > /tmp/lab44.txt 2>/dev/null
 if diff /tmp/bigfiles.txt /tmp/lab44.txt &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t you have correctly idenitified files bigger than 100M"
