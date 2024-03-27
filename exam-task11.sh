@@ -17,7 +17,7 @@ else
 fi
 TOTAL=$(( TOTAL + 10 ))
 
-if grep 'hello from' /web/index.html &>/dev/null
+if grep -i 'hello from' /web/index.html &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t requested web content was found"
 	SCORE=$(( SCORE + 10 ))
