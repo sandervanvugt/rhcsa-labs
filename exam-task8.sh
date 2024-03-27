@@ -16,7 +16,7 @@ else
 fi
 TOTAL=$(( TOTAL + 10 ))
 
-if grep 'Restart=always' /etc/systemd/system/sleep.service &>/dev/null
+if grep 'Restart=' /etc/systemd/system/sleep.service &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t service will automatically restart"
 	SCORE=$(( SCORE + 10 ))

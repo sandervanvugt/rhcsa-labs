@@ -18,6 +18,16 @@ else
  	echo -e "your system recently rebooted. Good, let's continue!"
 fi
 
+if  who | grep student &>/dev/null
+then
+        echo -e "you are running this script from a user student environment. Good, let's continue!"
+else
+        echo -e "\e[5m\033[35m\033[1mWARNING\e[0m\033[0m\033[0m\t\tto run this script, as user student, type sudo -i to open a root shell."
+        echo -e "\e[5m\033[35m\033[1mWARNING\e[0m\033[0m\033[0m\t\tyou seem to have logged in as another user"
+        echo -e "\e[5m\033[35m\033[1mWARNING\e[0m\033[0m\033[0m\t\tplease login as user student and run this script again. Exiting now."
+	exit 4
+fi
+
 # evaluating tasks
 echo -e "\033[1mchecking task 1 results\033[0m"
 source exam-task1.sh
