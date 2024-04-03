@@ -17,7 +17,7 @@ else
 	exit 6
 fi
 
-if grep -iq 'enabled=0' $REPOFILE
+if grep -iq 'enabled=0' $REPOFILE || grep -iq 'enabled=no' $REPOFILE
 then
 	echo -e "\033[32m[OK]\033[0m\t\t the repository.example.com repository is not currently enabled"
 else
