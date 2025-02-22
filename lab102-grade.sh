@@ -15,9 +15,9 @@ else
 	echo -e "\033[31m[FAIL]\033[0m\t\t hostname is not set to examlabs.local"
 fi
 
-IPADDR=$(ip a | grep -A 3 '^2' | tail -n 1 | awk '{ print $2 }')
+IPADDR=$(ip a | grep -A 3 '^2' | awk '/inet/ { print $2 }')
 IPADDR=${IPADDR%/*}
-if grep ${IPADDR}'.examlabs.local' /etc/hosts &>/dev/null
+if grep '${IPADDR}[[:space:]]*examlabs.local' /etc/hosts &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t /etc/hosts has an entry that resolves current IP to examlabs.local"
 else
