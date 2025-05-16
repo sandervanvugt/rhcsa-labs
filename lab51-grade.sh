@@ -28,7 +28,7 @@ else
 	echo -e "\033[31m[FAIL]\033[0m\t\t the script doesn't loop over all files that have the .txt extension"
 fi
 
-if grep '${i%.*}' /root/lab51.sh &>/dev/null
+if grep '${.*%.*}' /root/lab51.sh &>/dev/null
 then
 	echo -e "\033[32m[OK]\033[0m\t\t the script uses pattern matching operators to move the .txt files to .bak files"
 else
